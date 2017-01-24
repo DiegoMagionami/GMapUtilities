@@ -1,0 +1,18 @@
+body {
+    position: relative;
+}
+#widget-search {
+    background: #fff;
+    left: 0;
+    position: absolute;
+    top: 70px;
+    z-index: 1;
+}
+.btn-effect {
+    cursor: pointer;
+}
+
+.list-results-vertical {
+    height: 85%;
+    overflow-y: scroll;
+}
