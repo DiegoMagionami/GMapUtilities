@@ -80,11 +80,12 @@ function GMaps() {
         }
     };
 
-    this.searchNearby = function (search, multiplePlaces) {
+    this.searchNearby = function (search, multiplePlaces, callback) {
         if(!this._place) {
             console.log('You must init place');
             return;
         }
+        
         var c = this;
         this._place.nearbySearch(search, function(results, status) {
 
@@ -93,21 +94,45 @@ function GMaps() {
                     c.clearResults(multiplePlaces.containerEl);
                     c.clearMarkers(c.markers);
                 }
-
-                for (var i = 0; i < results.length; i++) {
-                    var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
-                    c._markers[i] = c.generateMarker({
-                        position: results[i].geometry.location,
-                        animation: google.maps.Animation.DROP
-                    });
-                    c._markers[i].placeResult = results[i];
-                    //google.maps.event.addListener(markers[i], 'click', showInfoWindow);
-                    setTimeout(c.dropMarker(c._markers, i, c._map), i * 100);
-                    c.addResult(results[i], i);
-                }
             }
 
+            return callback(results);
         });
+    };
+
+    this.setPoints = function (points) {
+        for (var i = 0; i < points.length; i++) {
+            var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
+            this._markers[i] = this.generateMarker({
+                position: points[i].geometry.location,
+                animation: google.maps.Animation.DROP
+            });
+
+            this._markers[i].placeResult = points[i];
+
+            setTimeout(this.dropMarker(this._markers, i, this._map), i * 100);
+            this.addResult(points[i], i);
+        }
+    };
+
+
+    this.setPointsByDistanceLimit = function (points, currentPosition, distanceLimit) {
+
+        this.clearMarkers(this._markers);
+        for (var i = 0; i < points.length; i++) {
+            var distance_from_location = google.maps.geometry.spherical.computeDistanceBetween(currentPosition, points[i].geometry.location);
+            if(distance_from_location < (distanceLimit * 1000)) {
+                var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
+                this._markers[i] = this.generateMarker({
+                    position: points[i].geometry.location,
+                    animation: google.maps.Animation.DROP
+                });
+
+                this._markers[i].placeResult = points[i];
+                setTimeout(this.dropMarker(this._markers, i, this._map), i * 100);
+                this.addResult(points[i], i);
+            }
+        }
     };
 
     this.getCoords = function (address, callback) {
