@@ -22,8 +22,8 @@
         getData: function(selector) {
             var types = [];
             $.getJSON("sources/culture.json", function(json) {
-                for(var i = 0; i < json.length; i++) {
-                    if(types.indexOf(json[i].Tipologia) === -1) {
+                for (var i = 0; i < json.length; i++) {
+                    if (types.indexOf(json[i].Tipologia) === -1) {
                         var opt = document.createElement('option');
                         opt.value = json[i].Tipologia;
                         opt.innerHTML = json[i].Tipologia;
@@ -36,29 +36,26 @@
     };
 
     searchBySetOfData.getData(selector);
-    gmap.getCoords('Perugia', function(result) {
-        console.log(result);
-    });
 
     selector.addEventListener('change', function() {
         $.getJSON("sources/culture.json", function(json) {
             var sel = selector.options[selector.selectedIndex].value;
 
-            for(var i = 0; i < json.length; i++) {
-                if(sel === json[i].Tipologia) {
+            for (var i = 0; i < json.length; i++) {
+                if (sel === json[i].Tipologia) {
                     var newEl = document.createElement('a');
-                    newEl.appendChild(document.createTextNode(json[i].Indirizzo +" " + json[i].Comune));
+                    newEl.appendChild(document.createTextNode(json[i].Indirizzo + " " + json[i].Comune));
                     newEl.setAttribute("class", "list-group-item");
                     newEl.setAttribute("href", "#");
-                    newEl.setAttribute("data-place", json[i].Indirizzo +" " + json[i].Comune);
-                    
-                    selResults.appendChild(newEl);
-                    gmap.findPlace(json[i].Indirizzo +" " + json[i].Comune);
+                    newEl.setAttribute("data-place", json[i].Indirizzo + " " + json[i].Comune);
 
-                    newEl.addEventListener('click', function (el) {
+                    selResults.appendChild(newEl);
+                    //gmap.findPlace(json[i].Indirizzo + " " + json[i].Comune);
+
+                    newEl.addEventListener('click', function(el) {
                         var _this = this;
                         _this.classList.add('active');
-                        gmap.getCoords(_this.dataset.place, function (result) {
+                        gmap.getCoords(_this.dataset.place, function(result) {
                             gmap.setPanorama(panoramaContainer, {
                                 position: result,
                                 pov: {

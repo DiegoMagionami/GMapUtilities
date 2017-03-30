@@ -1,7 +1,7 @@
 var geo_options = {
     enableHighAccuracy: true,
-    maximumAge        : 30000,
-    timeout           : 27000
+    maximumAge: 30000,
+    timeout: 27000
 };
 
 (function() {
@@ -18,7 +18,7 @@ var geo_options = {
         zoom: 6
     });
     displayHeatMap();
-    
+
     function displayHeatMap() {
         map.data.setStyle(function() {
             icon: getCircle()
@@ -31,7 +31,7 @@ var geo_options = {
                 var coords = data.features[i].geometry.coordinates;
                 var latLng = new google.maps.LatLng(coords[1], coords[0]);
                 locations.push((latLng));
-                heatmapData.push({location: latLng, weight: data.features[i].properties.Magnitudo});
+                heatmapData.push({ location: latLng, weight: data.features[i].properties.Magnitudo });
             }
 
             var markers = locations.map(function(location, i) {
@@ -63,43 +63,6 @@ var geo_options = {
             return callback(data);
         });
     }
-
-            //$.getJSON("sources/earthquake.json", function (json) {
-                /*var heatmapData = [];
-                var locations = [];
-                var magData = [];
-                map.data.addGeoJson(json);
-                map.data.setStyle(function(feature) {
-                    var magnitude = feature.getProperty('Magnitudo');
-                    return {
-                        icon: getCircle(magnitude)
-                    };
-                });
-                for (var i = 0; i < json.features.length; i++) {
-                    var coords = json.features[i].geometry.coordinates;
-                    var mag = json.features[i].properties.Magnitudo;
-                    var latLng = new google.maps.LatLng(coords[1], coords[0]);
-                    locations.push((latLng));
-                    heatmapData.push(latLng);
-                    magData.push(mag);
-                }
-
-                var markers = locations.map(function(location, i) {
-                    return gmap.generateMarker({
-                        position: location
-                    });
-                });
-                
-                gmap.initMarkerCluster(markers, {
-                    imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
-                });
-
-                var heatmap = gmap.initHeatMap({
-                    data: heatmapData,
-                    dissipating: false,
-                    map: map
-                });*/
-
 
     function getCircle(magnitude) {
         return {

@@ -1,5 +1,7 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <link
             rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -9,8 +11,21 @@
             rel="stylesheet"
             href="style.css" />
     <style>
-        #map {
+        html, body {
+            width: 100%;
             height: 100%;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        #widget-search {
+            overflow-y: scroll;
+            height: 100%;
+        }
+        #results td {
+            padding: 10px 0;
         }
     </style>
 </head>
@@ -46,20 +61,8 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12">
-            <div id="map"></div>
-        </div>
-    </div>
-    <div class="row">
-        <div id="listing">
-            <table id="resultsTable">
-                <tbody id="results"></tbody>
-            </table>
-        </div>
-    </div>
-</div>
+<div id="map"></div>
+
 
 <div id="widget-search" class="col-sm-2">
     <div class="form-group">
@@ -74,13 +77,21 @@
     </div>
     <div class="form-group">
         <label>Search Place Nearby</label>
-        <select id="search-place-type" class="form-control">
+        <select id="place-type" class="form-control">
             <option value="gas_station">Gas Station</option>
             <option value="hospital">Hospital</option>
             <option value="movie_theater">Movie Theater</option>
             <option value="pharmacy">Pharmacy</option>
             <option value="train_station">Train Station</option>
         </select>
+    </div>
+    <div class="form-group">
+        <button type="button" id="search-place" class="btn btn-default">Search</button>
+    </div>
+    <div id="listing">
+        <table id="resultsTable">
+            <tbody id="results"></tbody>
+        </table>
     </div>
 </div>
 <script
